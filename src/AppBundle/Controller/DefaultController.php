@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\Mapping\Id;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -17,8 +18,7 @@ class DefaultController extends Controller
     {
         $db = $this->get('database_connection');
         $tasks = $db->fetchAll('SELECT * FROM task');
-        return $this->render('default/home.html.twig', array(
-            'tasks' => $tasks,
+        return $this->render('default/home.html.twig', array('tasks' => $tasks,
             'base_dir' => realpath($this->container->getParameter('kernel.root_dir') . '/..'),
         ));
 
@@ -52,14 +52,28 @@ class DefaultController extends Controller
         return $this->redirectToRoute('homepage');
 
     }
-
     /**
      * @Route("/edit/{id}", name="task.edit")
      */
-
-    public function editAction($id)
+    public function editAction(Request $request, $id)
     {
+        $db = $this->get('database_connection');
 
+        if ($request->getMethod() == 'POST') {
+            $db->update('task', [
+                'text' => $request->request->get('text')
+            ], [
+                'id' => $id,
+            ]);
+            return $this->redirectToRoute('homepage');
+        }
 
+        $task = $db->fetchAssoc('SELECT * FROM task WHERE id = :id', [
+            'id' => $id,
+        ]);
+
+        return $this->render('default/edit.html.twig', [
+            'task' => $task,
+        ]);
     }
 }
