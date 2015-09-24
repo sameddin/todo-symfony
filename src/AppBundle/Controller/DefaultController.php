@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use Doctrine\ORM\Mapping\Id;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -24,7 +25,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/vasiliy-dobavlyaet-task", name="task.add")
+     * @Route("/add", name="task.add")
      */
     public function addAction(Request $request)
     {
@@ -33,44 +34,32 @@ class DefaultController extends Controller
 
 
         $db = $this->get('database_connection');
-
         $db->insert('task', array('text' => $text));
-        $tasks = $db->fetchAll('SELECT * FROM task');
+        $db->fetchAll('SELECT * FROM task');
 
         return $this->redirectToRoute('homepage');
     }
 
     /**
-     * @Route("/vasiliy-obnovlyaet-task", name="task.update")
+     * @Route("/delete/{id}", name="task.delete")
      */
-    public function updateAction($id)
+    public function deleteAction($id)
     {
-        $db = $this->getDoctrine()->getManager();
-        $tasks = $db->getRepository('text')->find($text);
+        var_dump($id);
 
+        $db = $this->get('database_connection');
+        $db->delete('task', array('id' => $id));
         return $this->redirectToRoute('homepage');
+
     }
 
     /**
-     * @Route("/vasiliy-udalyaet-task", name="task.delete")
+     * @Route("/edit/{id}", name="task.edit")
      */
-    public function deleteAction($text)
-    {
-        $db = $this->getDoctrine()->getManager();
-        $tasks = $db->getRepository('text')->find($text);
 
-        $db->remove($tasks);
-        $db->flush();
-    }
-
-    /**
-     * @Route("/vasiliy-pokazivaet-task", name="task.show")
-     */
-    public function showAction($text)
+    public function editAction($id)
     {
-        $tasks = $this->getDoctrine()
-            ->getRepository('text')
-            ->find($text);
-        return $this->render('default/index.html.twig',array('text' => $text));
+
+
     }
 }

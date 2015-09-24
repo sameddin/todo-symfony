@@ -13,7 +13,7 @@
 
             <ul>
                 {% for task in tasks %}
-                    <li>{{ task.text }}</li>
+                    <li>{{ task.text }} <a style="color: #0B7E15" href="{{ path('task.edit', {'id': task.id  }) }}">Edit</a> | <a style="color: #CC0000" href="{{ path('task.delete',{'id': task.id}) }}">Delete</a></li>
                 {% endfor %}
             </ul>
 
