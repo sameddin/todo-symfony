@@ -35,10 +35,10 @@ class DefaultController extends Controller
         $task = new Task();
         $task->setText($text);
 
-        $db = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
 
-        $db->persist($task);
-        $db->flush();
+        $em->persist($task);
+        $em->flush();
 
         return $this->redirectToRoute('homepage');
     }
@@ -48,11 +48,11 @@ class DefaultController extends Controller
      */
     public function deleteAction($id)
     {
-        $db = $this->getDoctrine()->getManager();
-        $task = $db->getRepository('AppBundle:Task')->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $task = $em->getRepository('AppBundle:Task')->find($id);
 
-        $db->remove($task);
-        $db->flush();
+        $em->remove($task);
+        $em->flush();
 
         return $this->redirectToRoute('homepage');
 
@@ -63,20 +63,18 @@ class DefaultController extends Controller
      */
     public function editAction(Request $request, $id)
     {
-        $db = $this->get('database_connection');
+        $em = $this->getDoctrine()->getManager();
+        /** @var Task $task */
+        $task = $em->getRepository('AppBundle:Task')->find($id);
 
         if ($request->getMethod() == 'POST') {
-            $db->update('task', [
-                'text' => $request->request->get('text')
-            ], [
-                'id' => $id,
-            ]);
+            $text = $request->request->get('text');
+            $task->setText($text);
+            $em->persist($task);
+            $em->flush();
+
             return $this->redirectToRoute('homepage');
         }
-
-        $task = $db->fetchAssoc('SELECT * FROM task WHERE id = :id', [
-            'id' => $id,
-        ]);
 
         return $this->render('default/edit.html.twig', [
             'task' => $task,
