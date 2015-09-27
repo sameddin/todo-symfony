@@ -14,8 +14,10 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $db = $this->get('database_connection');
-        $tasks = $db->fetchAll('SELECT * FROM task');
+        $tasks = $this->getDoctrine()
+            ->getRepository('AppBundle:Task')
+            ->findAll();
+
         return $this->render('default/home.html.twig', array('tasks' => $tasks,
             'base_dir' => realpath($this->container->getParameter('kernel.root_dir') . '/..'),
         ));
