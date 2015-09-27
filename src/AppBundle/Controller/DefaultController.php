@@ -20,7 +20,6 @@ class DefaultController extends Controller
 
         return $this->render('default/home.html.twig', [
             'tasks' => $tasks,
-            'base_dir' => realpath($this->container->getParameter('kernel.root_dir') . '/..'),
         ]);
 
     }
