@@ -18,7 +18,8 @@ class DefaultController extends Controller
             ->getRepository('AppBundle:Task')
             ->findAll();
 
-        return $this->render('default/home.html.twig', ['tasks' => $tasks,
+        return $this->render('default/home.html.twig', [
+            'tasks' => $tasks,
             'base_dir' => realpath($this->container->getParameter('kernel.root_dir') . '/..'),
         ]);
 
