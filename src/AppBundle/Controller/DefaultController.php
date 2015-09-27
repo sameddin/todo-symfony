@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Task;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\Mapping\Id;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -30,12 +31,12 @@ class DefaultController extends Controller
     public function addAction(Request $request)
     {
         $text = $request->request->get('text');
-        var_dump($text);
 
-
-        $db = $this->get('database_connection');
-        $db->insert('task', array('text' => $text));
-        $db->fetchAll('SELECT * FROM task');
+        $em = $this->getDoctrine()->getManager();
+        $task = new Task();
+        $task->setText($text);
+        $em->persist($task);
+        $em->flush();
 
         return $this->redirectToRoute('homepage');
     }
