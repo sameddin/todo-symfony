@@ -5,7 +5,9 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Task;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
@@ -59,6 +61,10 @@ class DefaultController extends Controller
 
     /**
      * @Route("/edit/{id}", name="task.edit")
+     *
+     * @param Request $request
+     * @param int $id
+     * @return RedirectResponse|Response
      */
     public function editAction(Request $request, $id)
     {
