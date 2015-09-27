@@ -47,10 +47,9 @@ class DefaultController extends Controller
     /**
      * @Route("/delete/{id}", name="task.delete")
      */
-    public function deleteAction($id)
+    public function deleteAction(Task $task)
     {
         $em = $this->getDoctrine()->getManager();
-        $task = $em->getRepository('AppBundle:Task')->find($id);
 
         $em->remove($task);
         $em->flush();
@@ -63,14 +62,12 @@ class DefaultController extends Controller
      * @Route("/edit/{id}", name="task.edit")
      *
      * @param Request $request
-     * @param int $id
+     * @param Task $task
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, $id)
+    public function editAction(Request $request, Task $task)
     {
         $em = $this->getDoctrine()->getManager();
-        /** @var Task $task */
-        $task = $em->getRepository('AppBundle:Task')->find($id);
 
         if ($request->getMethod() == 'POST') {
             $text = $request->request->get('text');
