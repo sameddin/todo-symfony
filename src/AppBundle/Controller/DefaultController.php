@@ -32,11 +32,13 @@ class DefaultController extends Controller
     {
         $text = $request->request->get('text');
 
-        $em = $this->getDoctrine()->getManager();
         $task = new Task();
         $task->setText($text);
-        $em->persist($task);
-        $em->flush();
+
+        $db = $this->getDoctrine()->getManager();
+
+        $db->persist($task);
+        $db->flush();
 
         return $this->redirectToRoute('homepage');
     }
@@ -46,13 +48,16 @@ class DefaultController extends Controller
      */
     public function deleteAction($id)
     {
-        var_dump($id);
+        $db = $this->getDoctrine()->getManager();
+        $task = $db->getRepository('AppBundle:Task')->find($id);
 
-        $db = $this->get('database_connection');
-        $db->delete('task', array('id' => $id));
+        $db->remove($task);
+        $db->flush();
+
         return $this->redirectToRoute('homepage');
 
     }
+
     /**
      * @Route("/edit/{id}", name="task.edit")
      */
