@@ -17,13 +17,10 @@
                 {% endfor %}
             </ul>
 
-            <form action="{{ path('task.add') }}" method="post" name="insertform">
-                <p>
-                    <label for="name" id="preinput"></label>
-                    <input type="text" name="text" required placeholder="Enter your text" autofocus/>
-                    <input type="submit" name="send" value="Add" />
-                </p>
-            </form>
+            {{ form_start(form) }}
+            {{ form_widget(form.text, {'attr': {'placeholder': 'Enter your text'} }) }}
+            {{ form_widget(form.save) }}
+            {{ form_end(form) }}
 
         </div>
     </div>

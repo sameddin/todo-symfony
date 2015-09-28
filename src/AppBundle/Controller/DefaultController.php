@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Task;
+use AppBundle\Form\Type\TaskType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -19,9 +20,14 @@ class DefaultController extends Controller
         $tasks = $this->getDoctrine()
             ->getRepository('AppBundle:Task')
             ->findAll();
+        $task =new Task();
+        $form = $this->createForm(new TaskType(), $task, array(
+            'action' => $this->generateUrl('task.add'),
+        ));
 
         return $this->render('default/home.html.twig', [
             'tasks' => $tasks,
+            'form' => $form->createView(),
         ]);
 
     }
@@ -31,13 +37,11 @@ class DefaultController extends Controller
      */
     public function addAction(Request $request)
     {
-        $text = $request->request->get('text');
-
         $task = new Task();
-        $task->setText($text);
+        $form = $this->createForm(new TaskType(), $task);
+        $form->handleRequest($request);
 
         $em = $this->getDoctrine()->getManager();
-
         $em->persist($task);
         $em->flush();
 
