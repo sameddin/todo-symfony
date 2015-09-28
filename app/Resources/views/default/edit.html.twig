@@ -4,14 +4,10 @@
     <div id="wrapper">
         <div id="container">
 
-            <form action="" method="post" name="insertform">
-                <p>
-                    <label for="name" id="preinput"> Text: </label>
-                    <input type="text" name="text" required placeholder="Enter your text" autofocus
-                           value="{{ task.text }}"/>
-                    <input type="submit" name="update" value="Edit"/>
-                </p>
-            </form>
+            {{ form_start(form) }}
+            {{ form_widget(form.text) }}
+            {{ form_widget(form.save) }}
+            {{ form_end(form) }}
 
         </div>
     </div>

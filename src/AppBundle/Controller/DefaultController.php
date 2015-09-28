@@ -67,19 +67,24 @@ class DefaultController extends Controller
      */
     public function editAction(Request $request, Task $task)
     {
-        $em = $this->getDoctrine()->getManager();
+        $form = $this->createFormBuilder($task)
+            ->add('text', 'text')
+            ->add('save', 'submit', array('label' => 'Edit'))
+            ->getForm();
 
-        if ($request->getMethod() == 'POST') {
-            $text = $request->request->get('text');
-            $task->setText($text);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
             $em->persist($task);
             $em->flush();
 
             return $this->redirectToRoute('homepage');
         }
 
-        return $this->render('default/edit.html.twig', [
-            'task' => $task,
-        ]);
+        return $this->render('default/edit.html.twig', array(
+            'form' => $form->createView(),
+        ));
     }
 }
