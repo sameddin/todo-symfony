@@ -38,4 +38,4 @@ namespace :php_fpm do
   end
 end
 
-after "deploy:restart", "php_fpm:restart"
+after "deploy:finalize_update", "php_fpm:restart"
