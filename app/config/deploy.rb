@@ -28,7 +28,7 @@ set :permission_method, :acl
 set :use_set_permissions, true
 
 # Be more verbose by uncommenting the following line
-logger.level = Logger::MAX_LEVEL
+# logger.level = Logger::MAX_LEVEL
 
 namespace :php_fpm do
   task :restart do
