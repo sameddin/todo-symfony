@@ -29,3 +29,13 @@ set :use_set_permissions, true
 
 # Be more verbose by uncommenting the following line
 logger.level = Logger::MAX_LEVEL
+
+namespace :php_fpm do
+  task :restart do
+    capifony_pretty_print "--> Restarting PHP-FPM"
+    run "service php5-fpm restart"
+    capifony_puts_ok
+  end
+end
+
+after "deploy:restart", "php_fpm:restart"
