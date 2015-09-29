@@ -69,12 +69,9 @@ class DefaultController extends Controller
      * @param Task $task
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Task $task)
-    {
-        $form = $this->createFormBuilder($task)
-            ->add('text', 'text')
-            ->add('save', 'submit', array('label' => 'Edit'))
-            ->getForm();
+    public function editAction(Request $request, Task $task) {
+
+        $form = $this->createForm(new TaskType(), $task);
 
         $form->handleRequest($request);
 
