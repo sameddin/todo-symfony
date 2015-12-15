@@ -1,4 +1,4 @@
-todo-symfony
+ToDo List
 ============
 
-A Symfony project created on September 16, 2015, 11:29 pm.
+The best & simplest To-Do list you have ever seen.
