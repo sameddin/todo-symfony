@@ -26,6 +26,7 @@ set :writable_dirs, ["app/cache", "app/logs"]
 set :webserver_user, "www-data"
 set :permission_method, :acl
 set :use_set_permissions, true
+set :dump_assetic_assets, true
 
 # Be more verbose by uncommenting the following line
 # logger.level = Logger::MAX_LEVEL
@@ -38,4 +39,13 @@ namespace :php_fpm do
   end
 end
 
+namespace :bower do
+  task :install do
+    capifony_pretty_print "--> Run bower install"
+    run "sh -c 'cd #{latest_release} && bower install --allow-root'"
+    capifony_puts_ok
+  end
+end
+
+before "symfony:assetic:dump", "bower:install"
 after "deploy:finalize_update", "php_fpm:restart"
