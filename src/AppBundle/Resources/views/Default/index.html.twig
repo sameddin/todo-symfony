@@ -1,0 +1,17 @@
+{% extends 'layout.html.twig' %}
+{% block content %}
+    <div>
+        {% for task in tasks %}
+            <ul>
+                <li>{{ task.text }}
+                <a href="{{ path('task.edit', {id: task.id }) }}" class="btn btn-success btn-sm" role="button">
+                    <i class="fa fa-pencil fa-lg"></i> Edit</a>
+                <a href="{{ path('task.delete', {id: task.id }) }}" class="btn btn-danger btn-sm" role="button">
+                    <i class="fa fa-trash-o fa-lg"></i> Delete</a>
+                </li>
+            </ul>
+        {% endfor %}
+
+        {{ form(form) }}
+    </div>
+{% endblock %}

@@ -1,10 +1,10 @@
 <?php
-
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Task;
 use AppBundle\Form\Type\TaskType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,22 +14,22 @@ class DefaultController extends Controller
 {
     /**
      * @Route("/", name="homepage")
+     * @Template
      */
     public function indexAction()
     {
         $tasks = $this->getDoctrine()
             ->getRepository('AppBundle:Task')
             ->findAll();
-        $task =new Task();
-        $form = $this->createForm(new TaskType(), $task, array(
+        $task = new Task();
+        $form = $this->createForm(new TaskType(), $task, [
             'action' => $this->generateUrl('task.add'),
-        ));
-
-        return $this->render('default/home.html.twig', [
-            'tasks' => $tasks,
-            'form' => $form->createView(),
         ]);
 
+        return [
+            'tasks' => $tasks,
+            'form' => $form->createView(),
+        ];
     }
 
     /**
@@ -59,18 +59,18 @@ class DefaultController extends Controller
         $em->flush();
 
         return $this->redirectToRoute('homepage');
-
     }
 
     /**
      * @Route("/edit/{id}", name="task.edit")
+     * @Template
      *
      * @param Request $request
      * @param Task $task
      * @return RedirectResponse|Response
      */
-    public function editAction(Request $request, Task $task) {
-
+    public function editAction(Request $request, Task $task)
+    {
         $form = $this->createForm(new TaskType(), $task);
 
         $form->handleRequest($request);
@@ -84,8 +84,8 @@ class DefaultController extends Controller
             return $this->redirectToRoute('homepage');
         }
 
-        return $this->render('default/edit.html.twig', array(
+        return [
             'form' => $form->createView(),
-        ));
+        ];
     }
 }
