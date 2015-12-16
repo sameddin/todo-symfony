@@ -20,7 +20,7 @@ class TaskType extends AbstractType
                 'label' => 'Add',
                 'attr' => [
                     'class' => 'btn-default',
-                ]
+                ],
             ]);
     }
 
