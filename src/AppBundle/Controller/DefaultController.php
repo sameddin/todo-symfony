@@ -47,6 +47,8 @@ class DefaultController extends Controller
         $em->persist($task);
         $em->flush();
 
+        $this->addFlash('info', 'New task added!');
+
         return $this->redirectToRoute('homepage');
     }
 
