@@ -34,6 +34,8 @@ class DefaultController extends Controller
 
     /**
      * @Route("/add", name="task.add")
+     * @param Request $request
+     * @return RedirectResponse
      */
     public function addAction(Request $request)
     {
@@ -50,6 +52,8 @@ class DefaultController extends Controller
 
     /**
      * @Route("/delete/{id}", name="task.delete")
+     * @param Task $task
+     * @return RedirectResponse
      */
     public function deleteAction(Task $task)
     {
