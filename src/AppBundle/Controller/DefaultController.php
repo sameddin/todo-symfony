@@ -60,9 +60,10 @@ class DefaultController extends Controller
     public function deleteAction(Task $task)
     {
         $em = $this->getDoctrine()->getManager();
-
         $em->remove($task);
         $em->flush();
+
+        $this->addFlash('danger', 'Task deleted!');
 
         return $this->redirectToRoute('homepage');
     }
