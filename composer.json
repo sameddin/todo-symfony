@@ -1,5 +1,5 @@
 {
-    "name": "sameddin/todo.symfony",
+    "name": "ToDo List",
     "license": "proprietary",
     "type": "project",
     "autoload": {
