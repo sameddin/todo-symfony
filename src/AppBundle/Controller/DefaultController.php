@@ -88,6 +88,8 @@ class DefaultController extends Controller
             $em->persist($task);
             $em->flush();
 
+            $this->addFlash('success', 'Task edited!');
+
             return $this->redirectToRoute('homepage');
         }
 
