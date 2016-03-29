@@ -6,7 +6,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class TaskType extends AbstractType
+class TaskAddType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -28,6 +28,6 @@ class TaskType extends AbstractType
 
     public function getBlockPrefix()
     {
-        return 'text';
+        return 'task_add';
     }
 }

@@ -2,7 +2,8 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Task;
-use AppBundle\Form\Type\TaskType;
+use AppBundle\Form\Type\TaskAddType;
+use AppBundle\Form\Type\TaskEditType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -22,7 +23,7 @@ class DefaultController extends Controller
             ->getRepository('AppBundle:Task')
             ->findAll();
         $task = new Task();
-        $form = $this->createForm(new TaskType(), $task, [
+        $form = $this->createForm(new TaskAddType(), $task, [
             'action' => $this->generateUrl('task.add'),
         ]);
 
@@ -40,7 +41,7 @@ class DefaultController extends Controller
     public function addAction(Request $request)
     {
         $task = new Task();
-        $form = $this->createForm(new TaskType(), $task);
+        $form = $this->createForm(new TaskAddType(), $task);
         $form->handleRequest($request);
 
         $em = $this->getDoctrine()->getManager();
@@ -78,7 +79,7 @@ class DefaultController extends Controller
      */
     public function editAction(Request $request, Task $task)
     {
-        $form = $this->createForm(new TaskType(), $task);
+        $form = $this->createForm(new TaskEditType(), $task);
 
         $form->handleRequest($request);
 
